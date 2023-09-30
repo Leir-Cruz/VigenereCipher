@@ -1,10 +1,8 @@
-from generateKey import generateKeystream
+from cypher import cypher
 
 if __name__ == "__main__":
   key = input("digite uma chave cifradora: ")
-  cyphertext = input("digite uma mensagem para ser encriptada: ")
+  message = input("digite uma mensagem para ser encriptada: ")
 
-  keystream = generateKeystream(cyphertext, key)
-  print(f"KeyStream gerado: {keystream}")
-
-  
+  cyphertext = cypher(message, key)
+  print(f"cyphertex gerado: {cyphertext}")
