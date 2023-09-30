@@ -13,7 +13,7 @@ def calculateFrequency(ciphertext):
       totalOfNormalCharacters += 1
   
   for key in numberOfNormalCharacters:
-    FrequencyOfNormalCharacters[key] = numberOfNormalCharacters[key] / totalOfNormalCharacters
+    FrequencyOfNormalCharacters[key] = 100 * (numberOfNormalCharacters[key] / totalOfNormalCharacters)
   
   
   return FrequencyOfNormalCharacters
