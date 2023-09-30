@@ -5,16 +5,16 @@ def cypher(message, key):
   messageSize = len(message)
   cyphertext = ""
   try:
-    keyStream = generateKeystream(message, key)
+    keystream = generateKeystream(message, key)
   except:
     print("Erro ao gerar KeyStream, tente novamente")
   else:
-    print(f"Keystream gerado: {keyStream}")
+    print(f"Keystream gerado: {keystream}")
     for i in range(messageSize):
       if checkEspecialCharacter(message[i]):
         cyphertext += message[i]
       else:
-        cypherCharacter = (ord(message[i]) + ord(keyStream[i])) % 26
+        cypherCharacter = (ord(message[i]) + ord(keystream[i])) % 26
         cypherCharacter += ord('a') #* we have to add 'a' to shift our character after module operation
         cyphertext += (chr(cypherCharacter))
-  return cyphertext, keyStream
+  return cyphertext, keystream

@@ -6,7 +6,7 @@ if __name__ == "__main__":
   message = input("digite uma mensagem para ser encriptada: ")
 
   cyphertext, keystream = cypher(message, key)
-  print(f"cyphertex gerado: {cyphertext}")
+  print(f"cyphertext gerado: {cyphertext}")
 
   originalMessage = decypher(cyphertext, keystream)
   print(f"mensagem original: {originalMessage}")
