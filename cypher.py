@@ -14,7 +14,7 @@ def cypher(message, key):
       if checkEspecialCharacter(message[i]):
         cyphertext += message[i]
       else:
-        cypherCharacter = (ord(message[i]) + ord(keystream[i])) % 26
-        cypherCharacter += ord('a') #* we have to add 'a' to shift our character after module operation
-        cyphertext += (chr(cypherCharacter))
+        cypherCharacter = (ord(message[i]) + ord(keystream[i]) - 2 * ord('a')) % 26
+        cypherCharacter += ord('a')  # adicione 'a' para obter o caractere correspondente
+        cyphertext += chr(cypherCharacter)  # converta o valor para um caractere e adicione ao texto cifrado
   return cyphertext, keystream
