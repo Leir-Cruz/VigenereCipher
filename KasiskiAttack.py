@@ -1,3 +1,5 @@
+from collections import Counter
+
 class KasiskiAttack:
   
   def findDistanceBetweenNgrams(arrayOfPositions):
@@ -24,5 +26,20 @@ class KasiskiAttack:
         ngramsDistances[key] = KasiskiAttack.findDistanceBetweenNgrams(ngramsPositions[key])
     return ngramsDistances
 
-  def findKeyLength():
-    print("")
+  def findPotentialDividers(number):
+    factors = set()
+    for i in range(1, number):
+        if number % i == 0:
+            factors.add(i)
+            factors.add(number//i)
+    return sorted(factors)
+
+  def findKeyLength(ngramsDistancesDict):
+    dividers = []
+    for key in ngramsDistancesDict:
+      for i in range(len(ngramsDistancesDict[key])):
+        potentialDividers = KasiskiAttack.findPotentialDividers(ngramsDistancesDict[key][i])
+        for potentialDivider in potentialDividers:
+          dividers.append(potentialDivider)
+    countedDividers = Counter(dividers)
+    return countedDividers.most_common(1)[0][0] #todo do not counter number one!!!
