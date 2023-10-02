@@ -41,5 +41,11 @@ class KasiskiAttack:
         potentialDividers = KasiskiAttack.findPotentialDividers(ngramsDistancesDict[key][i])
         for potentialDivider in potentialDividers:
           dividers.append(potentialDivider)
-    countedDividers = Counter(dividers)
-    return countedDividers.most_common(1)[0][0] #todo do not counter number one!!!
+    countedDividers = Counter(dividers).most_common()
+    countedDividersSize = len(countedDividers)
+    if(countedDividersSize > 1):
+      return countedDividers[1][0]
+    elif(countedDividers == 1):
+      return countedDividers[0][0]
+    else:
+      return 0
