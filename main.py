@@ -1,6 +1,5 @@
 from cypher import cypher
 from decypher import decypher
-from calculateFrequency import calculateFrequency
 
 if __name__ == "__main__":
   key = input("digite uma chave cifradora: ")
@@ -12,6 +11,3 @@ if __name__ == "__main__":
   originalMessage = decypher(cyphertext, keystream)
   print(f"mensagem original: {originalMessage}")
 
-
-  print("\n////////////////////////\n")
-  print(calculateFrequency(message))
