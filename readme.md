@@ -22,7 +22,13 @@ In the project directory, you can run:
 
 ### `git pull`
 
-### `pithon3 main.py`
+Run cipher and decipher:
+
+### `python3 main.py`
+
+Run frequencyAnalysis break cipher:
+
+### `python3 breakCipher.py`
 
 # References
 
