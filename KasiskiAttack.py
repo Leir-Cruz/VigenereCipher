@@ -1,7 +1,11 @@
 from collections import Counter
+from checkEspecialCharacter import checkEspecialCharacter
 
 class KasiskiAttack:
   
+  def checkValidNgram(ngram):
+    return all(checkEspecialCharacter(char) for char in ngram)
+
   def findDistanceBetweenNgrams(arrayOfPositions):
     arrayOfPositionsSize = len(arrayOfPositions)
     arrayOfDistances = []
@@ -15,12 +19,21 @@ class KasiskiAttack:
     ngramsPositions = {}
     ngramsDistances = {}
     ciphertextSize = len(ciphertext)
+    normalCharacterIndex = 0
     for i in range(ciphertextSize):
-      ngram = ciphertext[i:i+ ngramSize]
-      if ngram not in ngramsPositions.keys():
-        ngramsPositions[ngram] = [i]
-      else:
-        ngramsPositions[ngram].append(i)
+      ngram=""
+      for j in range(ciphertextSize - i):
+        if len(ngram) >= ngramSize or (checkEspecialCharacter(ciphertext[i]) and ngram==""):
+          break
+        if not checkEspecialCharacter(ciphertext[j + i]):
+          if ngram == "":
+            normalCharacterIndex += 1
+          ngram += ciphertext[j + i]
+      if ngram != "":
+        if ngram not in ngramsPositions.keys():
+          ngramsPositions[ngram] = [normalCharacterIndex]
+        else:
+          ngramsPositions[ngram].append(normalCharacterIndex)
     for key in list(ngramsPositions.keys()):
       if len(ngramsPositions[key]) > 1:
         ngramsDistances[key] = KasiskiAttack.findDistanceBetweenNgrams(ngramsPositions[key])
@@ -42,7 +55,6 @@ class KasiskiAttack:
         for potentialDivider in potentialDividers:
           dividers.append(potentialDivider)
     countedDividers = Counter(dividers).most_common()
-    print(countedDividers) #!remove this later
     countedDividersSize = len(countedDividers)
     if(countedDividersSize > 1):
       return countedDividers[1][0]
