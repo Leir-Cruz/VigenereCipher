@@ -50,15 +50,18 @@ class FrequencyAnalysis:
   
   def findKeyLetter(ciphertext, type="english"):
     alphabet = string.ascii_lowercase
-    if type == english:
+    if type == "english":
       languageFrequency = english
     else:
       languageFrequency = portuguese
     frequencyDict = FrequencyAnalysis.calculateFrequency(ciphertext)
     higherFrequencyLetter = max(frequencyDict, key= lambda x: frequencyDict[x])
-    print(f"letra maior frequência {frequencyDict}") #!remove this later
+    print(f"frequência grupo {frequencyDict}") #!remove this later
     higherLanguageFrequencyLetter = max(languageFrequency,  key=lambda x: languageFrequency[x])
+    print(f"frequencia alfabeto maior: {higherLanguageFrequencyLetter}")
+    print(f"frequencia grupo maior: {higherFrequencyLetter}")
     shift = FrequencyAnalysis.calculateShift(higherFrequencyLetter, higherLanguageFrequencyLetter)
+    print(f"shift: {shift}")
     keyLetter = FrequencyAnalysis.caesarCipher('a', shift)
     return keyLetter
 
