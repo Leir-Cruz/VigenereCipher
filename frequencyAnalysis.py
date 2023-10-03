@@ -41,34 +41,38 @@ class FrequencyAnalysis:
     shift = ord(firstLetter) - ord(secondLetter)
     return shift
 
-  def generateCipherGroup(ciphertext, groupSize):
+  #todo transformar essa função em função que só soma depois de passar pelo normalCharacterIndex
+  def generateCipherGroup(ciphertext, spacing):
     cipherGroup = ""
+    normalCharacterIndex = 0
     for i in range(len(ciphertext)):
-      if i % (groupSize + 1) == 0:
+      if(not checkEspecialCharacter(ciphertext[i])):
+        if normalCharacterIndex % (spacing) == 0:
           cipherGroup += ciphertext[i]
+        normalCharacterIndex += 1  
     return cipherGroup
   
   def findKeyLetter(ciphertext, type="english"):
-    alphabet = string.ascii_lowercase
     if type == "english":
       languageFrequency = english
     else:
       languageFrequency = portuguese
+    print(f"grupo: {ciphertext}") #!remove this later 
     frequencyDict = FrequencyAnalysis.calculateFrequency(ciphertext)
     higherFrequencyLetter = max(frequencyDict, key= lambda x: frequencyDict[x])
     print(f"frequência grupo {frequencyDict}") #!remove this later
     higherLanguageFrequencyLetter = max(languageFrequency,  key=lambda x: languageFrequency[x])
-    print(f"frequencia alfabeto maior: {higherLanguageFrequencyLetter}")
-    print(f"frequencia grupo maior: {higherFrequencyLetter}")
+    print(f"frequencia alfabeto maior: {higherLanguageFrequencyLetter}") #!remove this later
+    print(f"frequencia grupo maior: {higherFrequencyLetter}") #!remove this later
     shift = FrequencyAnalysis.calculateShift(higherFrequencyLetter, higherLanguageFrequencyLetter)
-    print(f"shift: {shift}")
+    print(f"shift: {shift}") #!remove this later
     keyLetter = FrequencyAnalysis.caesarCipher('a', shift)
     return keyLetter
 
 
   def findKey(ciphertext, keyLength, type="english"):
     key = ""
-    for i in range(keyLength):
+    for i in range(keyLength): #todo change this
       ciphertextGroup = FrequencyAnalysis.generateCipherGroup(ciphertext[i:len(ciphertext)], keyLength)
       letter = FrequencyAnalysis.findKeyLetter(ciphertextGroup, type) 
       print(f"letra: {letter}") #!remove this later

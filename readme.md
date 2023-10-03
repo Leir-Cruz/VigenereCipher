@@ -34,3 +34,4 @@ Run frequencyAnalysis break cipher:
 
 - https://www.youtube.com/watch?v=SkJcmCaHqS0
 - https://www.youtube.com/watch?v=P4z3jAOzT9I
+- https://www.youtube.com/watch?v=TxClRjnRNJw
