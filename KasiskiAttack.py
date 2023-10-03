@@ -42,6 +42,7 @@ class KasiskiAttack:
         for potentialDivider in potentialDividers:
           dividers.append(potentialDivider)
     countedDividers = Counter(dividers).most_common()
+    print(countedDividers) #!remove this later
     countedDividersSize = len(countedDividers)
     if(countedDividersSize > 1):
       return countedDividers[1][0]
