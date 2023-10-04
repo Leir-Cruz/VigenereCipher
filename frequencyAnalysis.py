@@ -1,18 +1,17 @@
 import collections
 from checkEspecialCharacter import checkEspecialCharacter
-import string
 from constants import portuguese, english
 
 class FrequencyAnalysis:
-  def calculateFrequency(ciphertextGroup):
+  def calculateFrequency(coset):
     numberOfNormalCharacters = collections.defaultdict(int)
     FrequencyOfNormalCharacters = {}
-    ciphertextGroupSize = len(ciphertextGroup)
+    ciphertextGroupSize = len(coset)
     totalOfNormalCharacters = 0
 
     for i in range(ciphertextGroupSize):
-      if(not checkEspecialCharacter(ciphertextGroup[i])):
-        numberOfNormalCharacters[ciphertextGroup[i] ] += 1
+      if(not checkEspecialCharacter(coset[i])):
+        numberOfNormalCharacters[coset[i] ] += 1
         totalOfNormalCharacters += 1
     
     for key in numberOfNormalCharacters:
@@ -42,23 +41,23 @@ class FrequencyAnalysis:
     return shift
 
   #todo transformar essa função em função que só soma depois de passar pelo normalCharacterIndex
-  def generateCipherGroup(ciphertext, spacing):
-    cipherGroup = ""
+  def generateCoset(ciphertext, spacing):
+    coset = ""
     normalCharacterIndex = 0
     for i in range(len(ciphertext)):
       if(not checkEspecialCharacter(ciphertext[i])):
         if normalCharacterIndex % (spacing) == 0:
-          cipherGroup += ciphertext[i]
+          coset += ciphertext[i]
         normalCharacterIndex += 1  
-    return cipherGroup
+    return coset
   
-  def findKeyLetter(ciphertext, type="english"):
+  def findKeyLetter(coset, type="english"):
     if type == "english":
       languageFrequency = english
     else:
       languageFrequency = portuguese
-    print(f"grupo: {ciphertext}") #!remove this later 
-    frequencyDict = FrequencyAnalysis.calculateFrequency(ciphertext)
+    print(f"grupo: {coset}") #!remove this later 
+    frequencyDict = FrequencyAnalysis.calculateFrequency(coset)
     higherFrequencyLetter = max(frequencyDict, key= lambda x: frequencyDict[x])
     print(f"frequência grupo {frequencyDict}") #!remove this later
     higherLanguageFrequencyLetter = max(languageFrequency,  key=lambda x: languageFrequency[x])
@@ -73,8 +72,8 @@ class FrequencyAnalysis:
   def findKey(ciphertext, keyLength, type="english"):
     key = ""
     for i in range(keyLength): #todo change this
-      ciphertextGroup = FrequencyAnalysis.generateCipherGroup(ciphertext[i:len(ciphertext)], keyLength)
-      letter = FrequencyAnalysis.findKeyLetter(ciphertextGroup, type) 
+      coset = FrequencyAnalysis.generateCipherGroup(ciphertext[i:len(ciphertext)], keyLength)
+      letter = FrequencyAnalysis.findKeyLetter(coset, type) 
       print(f"letra: {letter}") #!remove this later
       key += letter
     return key
