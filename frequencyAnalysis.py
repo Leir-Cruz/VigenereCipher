@@ -11,7 +11,7 @@ class FrequencyAnalysis:
 
     for i in range(ciphertextGroupSize):
       if(not checkEspecialCharacter(coset[i])):
-        numberOfNormalCharacters[coset[i] ] += 1
+        numberOfNormalCharacters[coset[i]] += 1
         totalOfNormalCharacters += 1
     
     for key in numberOfNormalCharacters:
@@ -29,18 +29,10 @@ class FrequencyAnalysis:
       shiftedCipher += chr(deslocatedCharacter)
     return shiftedCipher
   
-  def generateCipherGroups(ciphertext, groupSize):
-    groups = []
-    for i in range(0, len(ciphertext) - groupSize, groupSize):
-      group = ciphertext[i:i+groupSize]
-      groups.append(group)
-    return groups
-  
   def calculateShift(firstLetter, secondLetter):
     shift = ord(firstLetter) - ord(secondLetter)
     return shift
 
-  #todo transformar essa função em função que só soma depois de passar pelo normalCharacterIndex
   def generateCoset(ciphertext, spacing):
     coset = ""
     normalCharacterIndex = 0
@@ -51,29 +43,35 @@ class FrequencyAnalysis:
         normalCharacterIndex += 1  
     return coset
   
-  def findKeyLetter(coset, type="english"):
-    if type == "english":
+  def x2CosetValue(cosetFrequency, languageFrequency):
+    value = 0
+    for key in languageFrequency.keys():
+      if key in cosetFrequency.keys():
+        value += ((cosetFrequency[key] - languageFrequency[key]) ** 2) / languageFrequency[key]
+      else:
+        value += languageFrequency[key]
+    return value
+
+  def x2CosetFindLetter(coset, languageFrequency):
+    shiftDict = {}
+    for i in range(26):
+      shiftedCoset = FrequencyAnalysis.caesarCipher(coset, i)
+      cosetFrequency = FrequencyAnalysis.calculateFrequency(shiftedCoset)
+      cosetX2Value = FrequencyAnalysis.x2CosetValue(cosetFrequency, languageFrequency)
+      shiftDict[i] = cosetX2Value
+    shift = min(shiftDict, key=shiftDict.get)
+    letter = FrequencyAnalysis.caesarCipher('a', shift)
+    return letter
+
+
+  def findKey(ciphertext, keyLength, languageType="english"):
+    key = ""
+    if languageType == "english":
       languageFrequency = english
     else:
       languageFrequency = portuguese
-    print(f"grupo: {coset}") #!remove this later 
-    frequencyDict = FrequencyAnalysis.calculateFrequency(coset)
-    higherFrequencyLetter = max(frequencyDict, key= lambda x: frequencyDict[x])
-    print(f"frequência grupo {frequencyDict}") #!remove this later
-    higherLanguageFrequencyLetter = max(languageFrequency,  key=lambda x: languageFrequency[x])
-    print(f"frequencia alfabeto maior: {higherLanguageFrequencyLetter}") #!remove this later
-    print(f"frequencia grupo maior: {higherFrequencyLetter}") #!remove this later
-    shift = FrequencyAnalysis.calculateShift(higherFrequencyLetter, higherLanguageFrequencyLetter)
-    print(f"shift: {shift}") #!remove this later
-    keyLetter = FrequencyAnalysis.caesarCipher('a', shift)
-    return keyLetter
-
-
-  def findKey(ciphertext, keyLength, type="english"):
-    key = ""
-    for i in range(keyLength): #todo change this
-      coset = FrequencyAnalysis.generateCipherGroup(ciphertext[i:len(ciphertext)], keyLength)
-      letter = FrequencyAnalysis.findKeyLetter(coset, type) 
-      print(f"letra: {letter}") #!remove this later
+    for i in range(keyLength): 
+      coset = FrequencyAnalysis.generateCoset(ciphertext[i:len(ciphertext)], keyLength)
+      letter = FrequencyAnalysis.x2CosetFindLetter(coset, languageFrequency) 
       key += letter
     return key
