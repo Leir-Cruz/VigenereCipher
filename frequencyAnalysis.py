@@ -54,12 +54,13 @@ class FrequencyAnalysis:
   def x2CosetFindPossibleLetters(coset, languageFrequency, keyLength):
     shiftDict = {}
     possibleLetters = []
-    for i in range(25):
+    for i in range(26):
       shiftedCoset = FrequencyAnalysis.caesarCipher(coset, i)
       cosetFrequency = FrequencyAnalysis.calculateFrequency(shiftedCoset)
       cosetX2Value = FrequencyAnalysis.x2CosetValue(cosetFrequency, languageFrequency)
       shiftDict[i] = cosetX2Value
     shiftItems = list(shiftDict.items())
+    print(f"coset: {coset}")
     shiftItems.sort(key=lambda item: item[1])
     for j in range(keyLength):
       shift = shiftItems[j][0]
