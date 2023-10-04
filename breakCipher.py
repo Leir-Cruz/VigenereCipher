@@ -16,6 +16,6 @@ else:
   key = FrequencyAnalysis.findKey(ciphertext, keySize)
 
 print(f"chave encontrada: {key}")
-#keystream = generateKeystream(ciphertext, key)
-#originalText = decypher(ciphertext, keystream)
-#print(f"mensagem original: {originalText}")
+keystream = generateKeystream(ciphertext, key)
+originalText = decypher(ciphertext, keystream)
+print(f"mensagem original: {originalText}")
