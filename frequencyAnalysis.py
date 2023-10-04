@@ -20,8 +20,7 @@ class FrequencyAnalysis:
     return FrequencyOfNormalCharacters
   
   def caesarCipher(ciphertext, shift):
-    if shift < 0:
-      shift += 25
+    shift = shift % 26
     ciphertextSize = len(ciphertext)
     shiftedCipher = ""
     for i in range(ciphertextSize):
@@ -52,16 +51,21 @@ class FrequencyAnalysis:
         value += languageFrequency[key]
     return value
 
-  def x2CosetFindLetter(coset, languageFrequency):
+  def x2CosetFindPossibleLetters(coset, languageFrequency, keyLength):
     shiftDict = {}
-    for i in range(26):
+    possibleLetters = []
+    for i in range(25):
       shiftedCoset = FrequencyAnalysis.caesarCipher(coset, i)
       cosetFrequency = FrequencyAnalysis.calculateFrequency(shiftedCoset)
       cosetX2Value = FrequencyAnalysis.x2CosetValue(cosetFrequency, languageFrequency)
       shiftDict[i] = cosetX2Value
-    shift = min(shiftDict, key=shiftDict.get)
-    letter = FrequencyAnalysis.caesarCipher('a', shift)
-    return letter
+    shiftItems = list(shiftDict.items())
+    shiftItems.sort(key=lambda item: item[1])
+    for j in range(keyLength):
+      shift = shiftItems[j][0]
+      letter = FrequencyAnalysis.caesarCipher('a', shift)
+      possibleLetters.append(letter)
+    return possibleLetters
 
 
   def findKey(ciphertext, keyLength, languageType="english"):
@@ -72,6 +76,7 @@ class FrequencyAnalysis:
       languageFrequency = portuguese
     for i in range(keyLength): 
       coset = FrequencyAnalysis.generateCoset(ciphertext[i:len(ciphertext)], keyLength)
-      letter = FrequencyAnalysis.x2CosetFindLetter(coset, languageFrequency) 
+      possibleletters = FrequencyAnalysis.x2CosetFindPossibleLetters(coset, languageFrequency, keyLength)
+      letter = input(f"Segue as possíveis letras para esse caractere, {possibleletters}, escolha uma: ")
       key += letter
     return key
