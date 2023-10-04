@@ -55,10 +55,6 @@ class KasiskiAttack:
         for potentialDivider in potentialDividers:
           dividers.append(potentialDivider)
     countedDividers = Counter(dividers).most_common()
-    countedDividersSize = len(countedDividers)
-    if(countedDividersSize > 1):
-      return countedDividers[1][0]
-    elif(countedDividers == 1):
-      return countedDividers[0][0]
-    else:
-      return 0
+    print(f"Escolha um tamanho de chave com base indice de coincidências: \n Primeiro número da tupla é o candidato a tamanho da chave \n{countedDividers}")
+    keyLength = int(input("Tamanho: "))
+    return keyLength
