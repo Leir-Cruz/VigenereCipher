@@ -35,3 +35,4 @@ Run frequencyAnalysis break cipher:
 - https://www.youtube.com/watch?v=SkJcmCaHqS0
 - https://www.youtube.com/watch?v=P4z3jAOzT9I
 - https://www.youtube.com/watch?v=TxClRjnRNJw
+- https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/Vig-Recover.html
